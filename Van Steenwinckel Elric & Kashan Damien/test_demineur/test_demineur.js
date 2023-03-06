@@ -108,7 +108,16 @@ var MineSweeper = {
             }
         }
 
-    },
-    }
+    this.game.status = 1;
 
-this.game.status = 1;
+    
+
+    },
+    
+    
+
+
+
+
+}
+
