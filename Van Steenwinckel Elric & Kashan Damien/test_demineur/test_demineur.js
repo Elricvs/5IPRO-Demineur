@@ -33,6 +33,7 @@ var MineSweeper = {
     },
     
     initialise: function() {
+        this.startGame('easy');
     },
     
     startGame: function(difficulty) {
@@ -62,7 +63,10 @@ var MineSweeper = {
                 cell = document.createElement('td');
                 cell.id = 'cell-'+i+'-'+j;
                 cell.className = 'cell';
+                cell.setAttribute('onclick', this.name+'.checkPosition('+i+', '+j+');'); //definition action sur un click
+                cell.setAttribute('oncontextmenu', this.name+'.markPosition('+i+', '+j+'); return false;');
                 line.appendChild(cell);
+                border.setAttribute('oncontextmenu', 'return false;');
             }
             field.appenChild(line);
         }
@@ -72,6 +76,37 @@ var MineSweeper = {
     },
 
     resetGame: function(){
+        this.game.field = new Array();
+        for (i =1; i <= this.settings['lines']; i++) {
+            this.game.field[i] = new Array();
+            for (j = 1; j<= this.settings['columns']; j++) {
+                this.game.field[i][j] = 0;
+            }
+        }
+    
+        for (i = 1; i<= this.settings['mines']; i++) {
+            x = math.floor(math.random() * (this.settings['columns'] - 1) + 1);
+            y = math.floor(math.random() * (this.settings['lines'] - 1) + 1);
+            while (this.game.field[x][y] == -1) {
+            x = math.floor(math.random() * (this.settings['columns'] - 1) + 1);
+            y = math.floor(math.random() * (this.settings['lines'] - 1) + 1);
+            }
+            this.game.field[x][y] = -1;
+
+            for (j = x-1; j <= x+1; j++) {
+                if (j == 0 || j == (this.settings['columns'] + 1))  {
+                    continue;
+                }
+                for (k = y-1; k <= y+1; k++) {
+                    if (k == 0 || k == (this.settings['lines'] + 1)) {
+                        continue;
+                    }
+                    if (this.game.field[j][k] != -1) {
+                        this.game.field[j][k] ++;
+                    }
+                }
+            }
+        }
 
     },
     }
