@@ -63,7 +63,7 @@ var MineSweeper = {
                 cell = document.createElement('td');
                 cell.id = 'cell-'+i+'-'+j;
                 cell.className = 'cell';
-                cell.setAttribute('onclick', this.name+'.checkPosition('+i+', '+j+');'); //definition action sur un click
+                cell.setAttribute('onclick', this.name+'.checkPosition('+i+', '+j+');'); 
                 cell.setAttribute('oncontextmenu', this.name+'.markPosition('+i+', '+j+'); return false;');
                 line.appendChild(cell);
                 border.setAttribute('oncontextmenu', 'return false;');
