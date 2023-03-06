@@ -110,3 +110,5 @@ var MineSweeper = {
 
     },
     }
+
+this.game.status = 1;
