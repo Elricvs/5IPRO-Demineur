@@ -49,26 +49,29 @@ var MineSweeper = {
         document.getElementById('result').innerHTML = '';
 
         border = document.createElement('table');
-        border = document.createElement('tbody');
+        field = document.createElement('tbody');
         border.appendChild(field);
 
         border.className = 'field';
 
-        board.appenChild(border);
+        board.appendChild(border);
 
         for (i = 1; i <= this.settings['lines']; i++) {
             line = document.createElement('tr');
             
             for (j = 1; j <= this.settings['columns']; j++) {
                 cell = document.createElement('td');
-                cell.id = 'cell-'+i+'-'+j;
+                cell.id = 'cell-'+ i +'-'+ j;
                 cell.className = 'cell';
                 cell.setAttribute('onclick', this.name+'.checkPosition('+i+', '+j+');'); 
                 cell.setAttribute('oncontextmenu', this.name+'.markPosition('+i+', '+j+'); return false;');
                 line.appendChild(cell);
-                border.setAttribute('oncontextmenu', 'return false;');
+                
             }
-            field.appenChild(line);
+            field.appendChild(line);
+
+            border.setAttribute('oncontextmenu', 'return false;');
+
         }
 
 
@@ -113,6 +116,53 @@ var MineSweeper = {
     
 
     },
+
+markPosition: function(x, y) {
+    if (this.game.status != 1)
+    return;
+
+    if (this.game.field[x][y] == -2)
+    return;
+
+    if (this.game.field[x][y] < -90) {
+        document.getElementById('cell-'+x+'-'+y).className = 'cell';
+        document.getElementById('cell-'+x+'-'+y).innerHTML = '';
+        this.game.field[x][y] += 100;
+        } else {
+        document.getElementById('cell-'+x+'-'+y).className = 'cell marked';
+        document.getElementById('cell-'+x+'-'+y).innerHTML = '!';
+        this.game.field[x][y] -= 100;
+        }
+
+},
+
+checkPosition: function(x, y) {
+    if (this.game.status != 1)
+        return;
+
+    if (this.game.field[x][y] == -2)
+        return;
+    if (this.game.field[x][y] < -90) {
+        return;
+    if (this.game.field[x][y] == -1) {
+        document.getElementById('cell-'+x+'-'+y).className = 'cell bomb';
+        this.displayLose();
+        return;
+    }
+
+    document.getElementById('cell-'+x+'-'+y).className ='cell clear';
+
+
+    if (this.game.field[x][y] > 0) {
+            document.getElementById('cell-'+x+'-'+y).innerHTML = this.game[x][y];
+            this.game.field[x][y] = -2;
+    }
+
+    }
+
+        
+
+},
     
     
 
