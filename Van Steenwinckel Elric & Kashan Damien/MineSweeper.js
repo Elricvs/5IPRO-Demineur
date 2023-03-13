@@ -73,3 +73,45 @@ var MineSweeper = {
             field.appendChild(line);
         }
     },
+
+    resetGame: function() {
+
+        /* créé le terrain vide */
+        this.game.field = new Array();
+        for (i = 1; i <= this.settings['lines']; i++) {
+            this.game.field[i] = new Array();
+            for (j = 1; j <= this.settings['columns']; j++) {
+                this.game.field[i][j] = 0;
+            }
+        }
+
+        /* ajout des mines */
+        for (i = 1; i <= this.settings['mines']; i++) {
+            /* placement des mines aléatoirement */
+            x = Math.floor(Math.random() * (this.settings['columns'] - 1) + 1);
+            y = Math.floor(Math.random() * (this.settings['lines'] - 1) + 1);
+			/* tant qu'une mine est dans la case, cherche une nouvelle case */
+			while (this.game.field[x][y] == -1) { 
+                x = Math.floor(Math.random() * (this.settings['columns'] - 1) + 1);
+                y = Math.floor(Math.random() * (this.settings['lines'] - 1) + 1);
+            }
+            this.game.field[x][y] = -1;
+
+            /* mise a jour des cases adjacentes */
+            for (j = x-1; j <= x+1; j++) {
+				/* indique la présence d'une mine */
+				if (j == 0 || j == (this.settings['columns'] + 1))
+                    continue;
+                for (k = y-1; k <= y+1; k++) {
+                    if (k == 0 || k == (this.settings['lines'] + 1))
+                        continue;
+                    if (this.game.field[j][k] != -1)
+                        this.game.field[j][k] ++;
+                }
+            }
+        }
+
+        /* initialise le jeu  */
+        this.game.status = 1;
+    },
+
