@@ -206,4 +206,26 @@ var MineSweeper = {
         /* affiche la victoire si c'est le cas */
         this.displayWin();
     }, 
-      
+    
+    
+    displayWin: function() {
+        /* affiche le résultat */
+        document.getElementById('result').innerHTML = 'Gagnée;';
+        document.getElementById('result').style.color = '#43b456';
+
+        /* fin de partie */
+        this.game.status = 0;
+    },
+
+    displayLose: function() {
+        /* affiche le résultat */ 
+        document.getElementById('result').innerHTML = 'Perdu';
+        document.getElementById('result').style.color = '#CC3333';
+
+        /* fin de partie */
+        this.game.status = 0;
+    },
+};
+
+
+
