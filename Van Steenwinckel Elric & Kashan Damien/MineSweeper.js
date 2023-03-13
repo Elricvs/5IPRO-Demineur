@@ -138,3 +138,57 @@ var MineSweeper = {
             this.game.field[x][y] -= 100;
         }
     },
+
+    checkPosition: function(x, y, check) {
+
+        /* check si le jeu fonctionne */
+        if (this.game.status != 1)
+            return;
+
+        /* check de la cellule si deja visité */
+        if (this.game.field[x][y] == -2) {
+            return;
+        }
+
+        /* check si la case est marquée */
+        if (this.game.field[x][y] < -90) {
+            return;
+        }
+
+        /* check si la cellule est un mine */
+        if (this.game.field[x][y] == -1) {
+            document.getElementById('cell-'+x+'-'+y).className = 'cell bomb';
+            this.displayLose();
+            return;
+        }
+
+        /* marque la cellule comme verifiee */
+        document.getElementById('cell-'+x+'-'+y).className = 'cell clear';
+        if (this.game.field[x][y] > 0) {
+            /* marque le nombre de mine des cases adjacentes */
+            document.getElementById('cell-'+x+'-'+y).innerHTML = this.game.field[x][y];
+
+            /* marque la case comme visitee */
+            this.game.field[x][y] = -2;
+        } else if (this.game.field[x][y] == 0) {
+            /* marque la case comme visitee */
+            this.game.field[x][y] = -2;
+
+            /* affiche les cases adjacentes */
+            for (var j = x-1; j <= x+1; j++) {
+                if (j == 0 || j == (this.settings['columns'] + 1))
+                    continue;
+                for (var k = y-1; k <= y+1; k++) {
+                    if (k == 0 || k == (this.settings['lines'] + 1))
+                        continue;
+                    if (this.game.field[j][k] > -1) {
+                        this.checkPosition(j, k);
+                    }
+                }
+            }
+        }
+
+        /* check si victoire */
+        if (check !== false)
+            this.checkWin();
+    },
