@@ -121,7 +121,7 @@ var MineSweeper = {
         if (this.game.status != 1)
             return;
 
-        /* check de la cellule si deja visité */
+        /* check de la cellule si deja visitée */
         if (this.game.field[x][y] == -2)
             return;
 
@@ -145,7 +145,7 @@ var MineSweeper = {
         if (this.game.status != 1)
             return;
 
-        /* check de la cellule si deja visité */
+        /* check de la cellule si deja visitée */
         if (this.game.field[x][y] == -2) {
             return;
         }
@@ -155,20 +155,20 @@ var MineSweeper = {
             return;
         }
 
-        /* check si la cellule est un mine */
+        /* check si la cellule est une mine */
         if (this.game.field[x][y] == -1) {
             document.getElementById('cell-'+x+'-'+y).className = 'cell bomb';
             this.displayLose();
             return;
         }
 
-        /* marque la cellule comme verifiee */
+        /* marque la cellule comme verifiée */
         document.getElementById('cell-'+x+'-'+y).className = 'cell clear';
         if (this.game.field[x][y] > 0) {
             /* marque le nombre de mine des cases adjacentes */
             document.getElementById('cell-'+x+'-'+y).innerHTML = this.game.field[x][y];
 
-            /* marque la case comme visitee */
+            /* marque la case comme visitée */
             this.game.field[x][y] = -2;
         } else if (this.game.field[x][y] == 0) {
             /* marque la case comme visitee */
@@ -192,3 +192,18 @@ var MineSweeper = {
         if (check !== false)
             this.checkWin();
     },
+
+    checkWin: function() {
+        /* check toutes les cases */
+        for (var i = 1; i <= this.settings['lines']; i++) {
+            for (var j = 1; j <= this.settings['columns']; j++) {
+                v = this.game.field[i][j];
+                if (v != -1 && v != -2 && v != -101)
+                    return;
+            }
+        }
+
+        /* affiche la victoire si c'est le cas */
+        this.displayWin();
+    }, 
+      
