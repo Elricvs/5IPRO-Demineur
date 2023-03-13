@@ -115,3 +115,26 @@ var MineSweeper = {
         this.game.status = 1;
     },
 
+    markPosition: function(x, y) {
+
+        /* check si le jeu fonctionne */
+        if (this.game.status != 1)
+            return;
+
+        /* check de la cellule si deja visité */
+        if (this.game.field[x][y] == -2)
+            return;
+
+        if (this.game.field[x][y] < -90) {
+        /* retire le marquage */
+            document.getElementById('cell-'+x+'-'+y).className = 'cell';
+            document.getElementById('cell-'+x+'-'+y).innerHTML = '';
+            this.game.field[x][y] += 100;
+
+        } else {
+        /* applique le marquage */
+            document.getElementById('cell-'+x+'-'+y).className = 'cell marked';
+            document.getElementById('cell-'+x+'-'+y).innerHTML = '!';
+            this.game.field[x][y] -= 100;
+        }
+    },
