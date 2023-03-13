@@ -182,7 +182,7 @@ var MineSweeper = {
                     if (k == 0 || k == (this.settings['lines'] + 1))
                         continue;
                     if (this.game.field[j][k] > -1) {
-                        this.checkPosition(j, k);
+                        this.checkPosition(j, k, false);
                     }
                 }
             }
